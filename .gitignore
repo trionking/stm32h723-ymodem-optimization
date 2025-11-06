@@ -1,0 +1,56 @@
+# STM32 Build Files
+Debug/
+Release/
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+*.su
+*.cyclo
+
+# IDE Files
+.settings/
+.cproject
+.project
+.metadata/
+*.launch
+
+# Python Files (excluded as requested)
+*.py
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg-info/
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Backup Files
+*.bak
+*.old
+*.orig
+
+# Logs
+*.log
+
+# Temporary Files
+*.tmp
+*.temp
+
+# Exclude subdirectories with their own git repos
+audio_win_app/
+
+# Windows reserved names
+nul
+NUL

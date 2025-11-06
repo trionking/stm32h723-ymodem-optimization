@@ -1,0 +1,112 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build (Debug)",
+            "type": "shell",
+            "command": "C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845/tools/bin/make.exe",
+            "args": [
+                "-j",
+                "all"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/Debug",
+                "env": {
+                    "PATH": "C:/ST/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin;${env:PATH}"
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Build (Release)",
+            "type": "shell",
+            "command": "C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845/tools/bin/make.exe",
+            "args": [
+                "-j",
+                "all"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/Release",
+                "env": {
+                    "PATH": "C:/ST/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin;${env:PATH}"
+                }
+            },
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Clean (Debug)",
+            "type": "shell",
+            "command": "C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845/tools/bin/make.exe",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/Debug",
+                "env": {
+                    "PATH": "C:/ST/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean (Release)",
+            "type": "shell",
+            "command": "C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.make.win32_2.2.0.202409170845/tools/bin/make.exe",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/Release",
+                "env": {
+                    "PATH": "C:/ST/STM32CubeCLT_1.19.0/GNU-tools-for-STM32/bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Flash (ST-Link)",
+            "type": "shell",
+            "command": "C:/ST/STM32CubeCLT_1.19.0/STM32CubeProgrammer/bin/STM32_Programmer_CLI.exe",
+            "args": [
+                "-c",
+                "port=SWD",
+                "-w",
+                "${workspaceFolder}/Debug/audio_mux_v101.elf",
+                "-v",
+                "-rst"
+            ],
+            "dependsOn": "Build (Debug)",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Build and Flash",
+            "dependsOn": [
+                "Build (Debug)",
+                "Flash (ST-Link)"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        }
+    ]
+}

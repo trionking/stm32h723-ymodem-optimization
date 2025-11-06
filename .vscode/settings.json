@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cpptools",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Debug": false,
+        "**/Release": false
+    },
+    "search.exclude": {
+        "**/Debug": true,
+        "**/Release": true,
+        "**/Drivers": false
+    },
+    "files.encoding": "utf8",
+    "vsmqtt.brokerProfiles": [
+        {
+            "name": "sinamon",
+            "host": "34.57.227.15",
+            "port": 1883,
+            "clientId": "vsmqtt_client_befe"
+        }
+    ]
+}
