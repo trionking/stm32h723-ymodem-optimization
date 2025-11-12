@@ -5,13 +5,13 @@
 | 항목 | 상태 | 비고 |
 |------|------|------|
 | **npm MCP 서버 (3개)** | ✅ 정상 | filesystem, memory, sequential-thinking |
-| **Python MCP 서버 (2개)** | ✅ 정상 | git, fetch |
-| **`.mcp.json` 설정** | ✅ 정상 | 5개 서버 구성 완료 |
+| **Python MCP 서버 (3개)** | ✅ 정상 | git, fetch, pymupdf4llm-mcp |
+| **`.mcp.json` 설정** | ✅ 정상 | 6개 서버 구성 완료 |
 | **Claude Code 활성화** | ✅ 정상 | 재시작 완료, MCP 작동 중 |
 | **Embedded Debugger MCP** | ⏳ 대기 | Rust 설치 필요 (선택사항) |
 
-**검증일**: 2025-11-12
-**상태**: 5개 MCP 서버 정상 작동 중 (토큰 절감, 컨텍스트 유지, Git 통합)
+**검증일**: 2025-11-12 (pymupdf4llm-mcp 추가)
+**상태**: 6개 MCP 서버 정상 작동 중 (토큰 절감, 컨텍스트 유지, Git 통합, PDF 분석)
 
 ---
 
@@ -77,9 +77,32 @@ pip install mcp-server-fetch
 
 ---
 
+### ✅ 6. pymupdf4llm-mcp (Python) 🆕
+**패키지**: `pymupdf4llm-mcp`
+**버전**: latest (2025)
+**상태**: ✅ 설치 완료 (검증일: 2025-11-12)
+**기능**: PDF 문서를 마크다운으로 변환하여 토큰 소모 최소화 (5-10배 감소)
+**설치 명령**:
+```bash
+pip install uv
+```
+
+**특징**:
+- **토큰 효율성**: PDF를 구조화된 마크다운으로 변환하여 불필요한 오버헤드 제거
+- **의미 보존**: 문서의 계층 구조와 서식 유지
+- **이미지 처리**: 정확한 이미지 위치 정보 포함
+- **STM32 문서 최적화**: AN(Application Note), RM(Reference Manual) 분석에 최적
+
+**사용 예**:
+- STM32 AN5593 (GPDMA 가이드) 분석
+- Reference Manual에서 레지스터 정보 추출
+- 회로도 PDF 문서 분석
+
+---
+
 ## ⏳ 설치 대기 중인 MCP
 
-### 6. Embedded Debugger MCP (Rust) ⭐
+### 7. Embedded Debugger MCP (Rust) ⭐
 **패키지**: `embedded-debugger-mcp`
 **상태**: ⏳ Rust 설치 필요
 **기능**:
@@ -133,19 +156,19 @@ cargo build --release
 
 ## 현재 `.mcp.json` 설정
 
-파일 위치: `D:\work\try\HYiot\work\sign_telecom\audio_bd\sw\cb_audio_mux\audio_mux_v101\audio_mux_v101\.mcp.json`
+파일 위치: `C:\work\sktel\audio_mux\cb_audio_dev_v102\audio_dac_v102\.mcp.json`
 
 ```json
 {
   "mcpServers": {
     "filesystem": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "D:\\work\\try\\HYiot\\work\\sign_telecom\\audio_bd\\sw\\cb_audio_mux\\audio_mux_v101\\audio_mux_v101"],
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:\\work\\sktel\\audio_mux\\cb_audio_dev_v102\\audio_dac_v102"],
       "description": "Secure file operations for STM32 project directory"
     },
     "git": {
       "command": "python",
-      "args": ["-m", "mcp_server_git", "--repository", "D:\\work\\try\\HYiot\\work\\sign_telecom\\audio_bd\\sw\\cb_audio_mux\\audio_mux_v101\\audio_mux_v101"],
+      "args": ["-m", "mcp_server_git", "--repository", "C:\\work\\sktel\\audio_mux\\cb_audio_dev_v102\\audio_dac_v102"],
       "description": "Git repository management and commit history tracking"
     },
     "memory": {
@@ -162,6 +185,12 @@ cargo build --release
       "command": "python",
       "args": ["-m", "mcp_server_fetch"],
       "description": "Fetch STM32 datasheets and reference manuals from web"
+    },
+    "pymupdf4llm-mcp": {
+      "command": "uvx",
+      "args": ["pymupdf4llm-mcp@latest", "stdio"],
+      "env": {},
+      "description": "PDF to Markdown converter for efficient token usage"
     }
   }
 }
@@ -217,13 +246,21 @@ cargo build --release
 - STM32 데이터시트, HAL API 문서 실시간 참조
 - 웹 리소스를 컨텍스트로 가져와 정확한 답변 제공
 
+**pymupdf4llm-mcp**:
+- PDF 문서를 마크다운으로 변환하여 토큰 소모 5-10배 감소
+- STM32 Application Note(AN), Reference Manual(RM) 효율적 분석
+- 회로도 PDF, 사양서 등 기술 문서 처리 최적화
+- 전체 PDF 로드 대신 필요한 섹션만 추출 가능
+
 ---
 
 ## 예상 효과
 
 - **토큰 절감**: 세션당 90% 이상 감소
+- **PDF 분석**: pymupdf4llm-mcp로 PDF 문서 토큰 소모 5-10배 감소
 - **워크플로우**: 전체 파일 업로드 대신 함수 레벨 작업
 - **컨텍스트**: Git 통합으로 세션 간 영구 유지
+- **기술 문서**: STM32 AN/RM 등 PDF 문서 효율적 분석
 - **디버깅**: STM32 하드웨어 실시간 디버깅 (Embedded Debugger MCP 설치 시)
 
 ---
@@ -248,6 +285,7 @@ C:\Users\SIDO\AppData\Roaming\npm
 
 ```bash
 pip list | grep mcp
+pip list | grep uv
 ```
 
 **검증 결과**:
@@ -255,6 +293,8 @@ pip list | grep mcp
 mcp                       1.21.0
 mcp-server-fetch          2025.4.7
 mcp-server-git            2025.9.25
+uv                        0.9.8
+pymupdf4llm-mcp           (uvx로 실행 시 자동 설치)
 ```
 
 ### 실행 환경 확인
@@ -275,17 +315,18 @@ C:\Python313\python.exe
 
 ### MCP 활성화 확인
 
-Claude Code 재시작 후 `.mcp.json` 파일이 자동으로 로드되어 다음 5개 MCP 서버가 활성화됨:
+Claude Code 재시작 후 `.mcp.json` 파일이 자동으로 로드되어 다음 6개 MCP 서버가 활성화됨:
 - ✅ filesystem
 - ✅ git
 - ✅ memory
 - ✅ sequential-thinking
 - ✅ fetch
+- ✅ pymupdf4llm-mcp 🆕
 
 **MCP 활성 상태 확인 방법**:
 - Claude Code 터미널을 닫고 재실행하면 자동 로드
 - 별도의 명령어 없이 MCP 기능이 백그라운드에서 작동
-- 파일 작업, Git 관리, 컨텍스트 유지가 자동으로 최적화됨
+- 파일 작업, Git 관리, PDF 분석, 컨텍스트 유지가 자동으로 최적화됨
 
 ---
 
@@ -331,15 +372,16 @@ Claude Code 재시작 후 `.mcp.json` 파일이 자동으로 로드되어 다음
 
 ## 다음 단계
 
-1. ✅ **완료**: 5개 MCP 서버 설치 확인 (2025-11-12)
-2. ✅ **완료**: Claude Code 재시작 및 MCP 활성화 확인 (2025-11-12)
-3. ✅ **진행 중**: MCP를 활용한 STM32 펌웨어 개발
-4. ⏳ **선택사항**: Rust 설치 → Embedded Debugger MCP 설치 (STM32 하드웨어 디버깅 필요 시)
+1. ✅ **완료**: 6개 MCP 서버 설치 확인 (2025-11-12)
+2. ✅ **완료**: pymupdf4llm-mcp 추가 설치 (2025-11-12)
+3. ✅ **완료**: Claude Code 재시작 및 MCP 활성화 확인 (2025-11-12)
+4. ✅ **진행 중**: MCP를 활용한 STM32 펌웨어 개발 (PDF 분석 기능 추가)
+5. ⏳ **선택사항**: Rust 설치 → Embedded Debugger MCP 설치 (STM32 하드웨어 디버깅 필요 시)
 
 ---
 
 **작성일**: 2025-11-12
-**검증일**: 2025-11-12
-**프로젝트**: STM32H723 Audio Multiplexer Firmware
-**버전**: v1.0.1
-**상태**: ✅ 5개 MCP 서버 정상 작동 중
+**최종 업데이트**: 2025-11-12 (pymupdf4llm-mcp 추가)
+**프로젝트**: STM32H523 Audio DAC Firmware
+**버전**: v1.0.2
+**상태**: ✅ 6개 MCP 서버 정상 작동 중 (PDF 분석 기능 포함)
